@@ -1,0 +1,116 @@
+include "LCD_Tanimlari.pbp"
+include "Terminal_Tanimlari.pbp"
+
+
+a var byte 'bosluk kontrolu'
+i var byte '1 inci oyuncu secimi'
+j var byte '2 nci oyuncu secimi'
+
+TRISB=0
+SYMBOL ses=PortB.0
+
+lcdout $fe,$40,27,27,10,4,10,17,0,0 'makas'
+lcdout $fe,$48,0,14,31,31,31,14,0,0  'tas'
+lcdout $fe,$50,28,14,7,0,0,0,0,0   'kagit'
+
+hserOUT ["Oyunu baþlatmak için space tuþuna basýnýz.",13,10]
+
+label:
+lcdout $fe,1
+HSERIN 5000,uyari,[a]
+if a!=" " then 
+    hserout["Baska tusla oyun baslamaz :)",13,10]
+else
+    devam:
+    sound ses,[10,50] 
+    hserout ["tas:t, kagit:k, makas:m basmaniz gereklidir.",13,10]
+    pause 1000
+    hserout["1.inci oyuncu lutfen secimini girsin:",13,10]
+    lcdout "1 inci secimini yapýyor."
+    tekrar:
+    hserin [i]
+    sound ses,[20,30]
+    
+    if i!="m" and i!="k" and i!="t" then 
+        hserout["lutfen t,k,m harflerinden birini giriniz:",13,10] 
+        goto tekrar 
+    else 
+        lcdout $fe,1,"birinci yapti hamlesini"
+    endif   
+    hserout["2.inci oyuncu lutfen secimini girsin:",13,10]
+    lcdout "2.inci oyuncu secimini giriyor."
+    tekrar2:
+    hserin [j]
+    sound ses,[30,30]
+    pause 300
+    if j!="m" and j!="k" and j!="t" then 
+        hserout["lutfen t,k,m harflerinden birini giriniz:",13,10] 
+        goto tekrar2 
+    else 
+        lcdout $fe,1,"2nci yapti hamlesini"
+    endif
+    goto kiyasla
+
+
+endif        
+    
+
+goto label
+
+
+kiyasla:
+if i="t" and j="m" then 
+    lcdout $fe,1
+    lcdout $fe,$85,"Birinci:",1," Ikinci:",0
+    lcdout $fe,$C0,"Ilk oyuncu kazandi"
+endif
+if i="t" and j="k" then 
+    lcdout $fe,1
+    lcdout "Birinci:",1," Ikinci:",2
+    lcdout $fe,$C0,"ikinci oyuncu kazandi"
+endif
+if i="k" and j="m" then 
+    lcdout $fe,1
+    lcdout "Birinci:",2," Ikinci:",0
+    lcdout $fe,$C0,"ikinci oyuncu kazandi"
+endif
+if i="k" and j="t" then 
+    lcdout $fe,1
+    lcdout "Birinci:",2," Ikinci:",1
+    lcdout $fe,$C0,"Ilk oyuncu kazandi"
+endif
+if i="m" and j="t" then 
+    lcdout $fe,1
+    lcdout "Birinci:",0," Ikinci:",1
+    lcdout $fe,$C0,"ikinci oyuncu kazandi"
+endif
+if i="m" and j="k" then 
+    lcdout $fe,1
+    lcdout "Birinci:",0," Ikinci:",2
+    lcdout $fe,$C0,"Ilk oyuncu kazandi"
+endif
+if i="t" and j="t" then 
+    lcdout $fe,1
+    lcdout "Birinci:",1," Ikinci:",1
+    lcdout $fe,$C0,"berabere"
+endif
+if i="k" and j="k" then 
+    lcdout $fe,1
+    lcdout "Birinci:",2," Ikinci:",2
+    lcdout $fe,$C0,"berabere"
+endif
+if i="m" and j="m" then 
+    lcdout $fe,1
+    lcdout "Birinci:",0," Ikinci:",0
+    lcdout $fe,$C0,"berabere"
+endif
+sound ses,[10,10,20,10,30,10,40,10]
+hserout ["oyunu tekrar baslatmak icin -space- tusuna basiniz",13,10]
+hserin [wait(" ")] 
+goto devam
+
+
+uyari:
+hserout["cok beklettin artik bas birseye",13,10]
+sound ses,[150,30]
+goto label
