@@ -1,0 +1,50 @@
+include "LCD_Tanimlari.pbp"
+
+
+i var byte 
+j var byte
+k var byte
+
+                                'SAAT UYGULAMASÝ'
+
+'saati þöyle düþünüyoruz, sayilarimiz çift hane olmasý gereklidir. (10'a kadar) saat:dakika:Saniye þeklinde
+
+
+
+label:
+    k=0
+    while k<24
+        j=0     
+        while j<60    
+            i=0
+            while i<60      
+                if K<10 AND J<10 and i<10 then lcdout $fe,1,"0",#k,":","0",#j,":","0",#i
+                if K<10 AND J<10 and i>=10 then lcdout $fe,1,"0",#k,":","0",#j,":",#i  
+                if K<10 AND J>=10 and i<10 then lcdout $fe,1,"0",#k,":",#j,":","0",#i  
+                if K<10 AND J>=10 and i>=10 then lcdout $fe,1,"0",#k,":",#j,":",#i  
+                if K>=10 AND J<10 and i<10 then lcdout $fe,1,#k,":","0",#j,":","0",#i  
+                if K>=10 AND J<10 and i>=10 then lcdout $fe,1,#k,":","0",#j,":",#i  
+                if K>=10 AND J>=10 and i<10 then lcdout $fe,1,#k,":",#j,":","0",#i  
+                if K>=10 AND J>=10 and i>=10 then lcdout $fe,1,#k,":",#j,":",#i  
+                i=i+1
+                pauseus 5  
+            wend
+        j=j+1 
+        wend
+        k=k+1
+    wend        
+    
+    
+        
+
+goto label
+
+
+
+
+
+
+
+
+
+

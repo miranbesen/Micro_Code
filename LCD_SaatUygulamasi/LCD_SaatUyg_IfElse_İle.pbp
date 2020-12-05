@@ -1,0 +1,40 @@
+
+include "LCD_Tanimlari.pbp"
+
+
+i var byte 
+j var byte
+k var byte 
+
+
+i=0
+
+
+label:    
+    
+    if k<24 then
+        if j<60 then
+            if i<60 then
+                if K<10 AND J<10 and i<10 then lcdout $fe,1,"0",#k,":","0",#j,":","0",#i
+                if K<10 AND J<10 and i>=10 then lcdout $fe,1,"0",#k,":","0",#j,":",#i  
+                if K<10 AND J>=10 and i<10 then lcdout $fe,1,"0",#k,":",#j,":","0",#i  
+                if K<10 AND J>=10 and i>=10 then lcdout $fe,1,"0",#k,":",#j,":",#i  
+                if K>=10 AND J<10 and i<10 then lcdout $fe,1,#k,":","0",#j,":","0",#i  
+                if K>=10 AND J<10 and i>=10 then lcdout $fe,1,#k,":","0",#j,":",#i  
+                if K>=10 AND J>=10 and i<10 then lcdout $fe,1,#k,":",#j,":","0",#i                  
+                if K>=10 AND J>=10 and i>=10 then lcdout $fe,1,#k,":",#j,":",#i                  
+                i=i+1
+                pauseus 5              
+            else 
+                i=0
+                j=j+1
+            endif
+        else
+            j=0
+            k=k+1
+        endif
+    else
+        k=0
+    endif
+    
+goto label 
