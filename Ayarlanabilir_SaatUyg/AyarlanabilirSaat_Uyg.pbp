@@ -1,0 +1,67 @@
+include "LCD_Tanimlari.pbp"
+include "Terminal_Tanimlari.pbp"
+
+
+i var byte 
+j var byte
+k var byte 
+a var byte
+x var byte
+z var byte
+y var byte 
+
+
+hserout["Degistirmek icin saati spaceye basiniz.",13,10]
+label: 
+    k=0
+    while k<24
+        j=0     
+        while j<60    
+            i=0
+            while i<60      
+                if K<10 AND J<10 and i<10 then lcdout $fe,1,"0",#k,":","0",#j,":","0",#i
+                if K<10 AND J<10 and i>=10 then lcdout $fe,1,"0",#k,":","0",#j,":",#i  
+                if K<10 AND J>=10 and i<10 then lcdout $fe,1,"0",#k,":",#j,":","0",#i  
+                if K<10 AND J>=10 and i>=10 then lcdout $fe,1,"0",#k,":",#j,":",#i  
+                if K>=10 AND J<10 and i<10 then lcdout $fe,1,#k,":","0",#j,":","0",#i  
+                if K>=10 AND J<10 and i>=10 then lcdout $fe,1,#k,":","0",#j,":",#i  
+                if K>=10 AND J>=10 and i<10 then lcdout $fe,1,#k,":",#j,":","0",#i  
+                if K>=10 AND J>=10 and i>=10 then lcdout $fe,1,#k,":",#j,":",#i  
+                
+                hserin 1000,devam,[a]  
+                '*********Terminalden giriþ yapýldýmý kontrol eder, giriþ eper boþluk ise else gider deðilse i yi arttýrýr.*************
+                if a != " " then 
+                    goto devam
+            
+                else 
+                        hserout ["saati giriniz:",13,10]
+                        hserin [dec y]
+                        hserout["yeni saat degeri:",dec y,13,10]
+                        k=y
+                        
+                        hserout ["dakikayi giriniz:",13,10]
+                        hserin [dec z]
+                        hserout["yeni dakika degeri:",dec z,13,10]
+                        j=z
+                        
+                        hserout["saniyeyi giriniz:",13,10]
+                        hserin[dec x]
+                        hserout["yeni saniye degeri:",dec x,13,10]
+                        i=x
+                        
+                endif
+                devam:
+                    i=i+1
+            wend
+        j=j+1 
+        wend
+        k=k+1
+    wend            
+
+goto label
+
+
+
+
+
+
