@@ -1,0 +1,59 @@
+INCLUDE "LCD_Tanimlari.pbp"
+
+TRISA=%111111
+TRISB=0
+TRISD=0
+
+PortA=0
+PortB=0
+PortD=0
+
+
+SYMBOL ileri=PortA.0
+SYMBOL geri=PortA.1
+SYMBOL sag=PortA.2
+symbol sol=PortA.3
+symbol solsaatyonu=PortB.0
+symbol solsaattersiyonu=PortB.1
+symbol sagsaatyonu=Portb.2
+symbol sagsaattersiyonu=Portb.3
+
+
+lcdout $fe,$40,12,18,18,23,18,16,16,0 'saga dönen ok'
+lcdout $fe,$48,6,9,9,29,9,1,1,0        'sola dönen ok'
+lcdout $fe,$50,4,14,21,4,4,4,4,0        'ileri gidiyor oku'
+lcdout $fe,$58,4,4,4,4,21,14,4,0        'geri gidiyor oku'
+
+label:
+    while ileri=0
+        solsaattersiyonu=1:sagsaatyonu=1:solsaatyonu=0:sagsaattersiyonu=0
+        lcdout $fe,1
+        lcdout "arac ileri gidiyor",2
+        pause 100     
+    wend
+    while geri=0
+        lcdout $fe,1
+        lcdout "Arac geri gidiyor",3
+        pause 100
+        solsaattersiyonu=0:sagsaatyonu=0:solsaatyonu=1:sagsaattersiyonu=1         
+    wend
+    while sag=0
+        lcdout $fe,1
+        lcdout "Arac saga donuyor",0
+        pause 100
+        solsaattersiyonu=0:sagsaatyonu=1:solsaatyonu=1:sagsaattersiyonu=0         
+    wend
+    while sol=0
+        lcdout $fe,1
+        lcdout "Arac sola donuyor",1
+        pause 100
+        solsaattersiyonu=1:sagsaatyonu=0:solsaatyonu=0:sagsaattersiyonu=1        
+    wend
+    solsaattersiyonu=0:sagsaatyonu=0:solsaatyonu=0:sagsaattersiyonu=0
+    lcdout $fe,1
+    lcdout "duruyor"
+    pause 100           
+
+goto label
+
+
