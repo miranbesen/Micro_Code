@@ -1,0 +1,32 @@
+TRISB=0
+TRISC=0
+PortB=0
+PortC=0
+
+symbol ileri=PortC.0
+symbol geri=PortC.1
+i var byte
+j var byte [4]
+k var byte 
+j[0]=3
+j[1]=6
+j[2]=12
+j[3]=9
+
+
+label:
+    while ileri=1
+            if k=4 then k=0
+            PortB=j[k]
+            pause 100
+            k=k+1
+    wend
+    
+    while geri=1
+        if k=255 then k=4 
+        PortB=J[K]
+        PAUSE 100
+        k=k-1    
+    wend
+    
+goto label
