@@ -1,0 +1,29 @@
+3 haneli şifreli kapı uygulamasıdır. Aşağıdaki maddeleri göz önünde bulundurarak şifreli kapı kilidinin programını yazınız.
+   
+1- Kapının açık olduğunu yeşil led, kapalı olduğunu kırmızı led göstermektedir. 
+
+2- Kullanılan keypad’in adı  “phone keypad” olarak geçmektedir. 
+
+3- Başlangıç şifresi “000” dır, şifreyi dahili eprom’a yazınız. 
+
+4- Yıldız butonu “*” şifre girme menüsüne dönmektedir.
+
+5- Diez butonu “#” yeni şifreyi girmeye yaramaktadır.
+
+6- Başlangıçta kırmızı led yanacaktır (kapı kapalı durumda) ve ilk satırda “SIFRENIZI GIRINIZ” yazacaktır.
+    Bu bizim ana menümüz olacaktır.
+
+7- Girilen şifre ikinci satırda gösterilecek ve ilk satırdaki yazı silinmeyecektir.
+
+8- Şifrenin yanlış girilmesi halinde ilk satırda “SIFRE YANLIS” yazısı yazacaktır ve bir süre sonra ana menüye dönecektir.
+
+9- Şifrenin doğru girilmesi halinde ilk satırda “SIFRE DOGRU” yazısı yazacaktır ve kırmızı led sönüp yeşil led yanacaktır (Kapı açılacak)
+
+10- İlk satırda “SIFRE DOGRU” yazısı yazarken yıldız yada diez butonlarından birine basılmasını bekleyecektir.
+
+11- Yıldız butonuna basılırsa ana menüye dönüp eski şifrenin girilmesini bekleyecektir
+ 
+12- Diez butonuna basılırsa ilk satırda “YENI SIFREYI GIRINIZ” yazacaktır ve 3 haneli yeni şifre 2. satıra girilecektir
+ 
+13- 3 haneli sayı girildikten bir süre sonra ilk satırda “SIFRE DEGISMISTIR” yazısı yazacak ve kırmızı led’i yakıp (kapıyı kapatıp)
+         ana menüye dönecek ve yeni şifrenin girilmesini bekleyecektir. 

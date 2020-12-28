@@ -1,0 +1,238 @@
+include "LCD_Tanimlari.pbp"
+
+TRISB=%01110000
+PortB=0
+TRISD=0
+PortD=0
+TRISC=0
+PortC=0
+
+symbol kirmizilamb=PortC.0
+symbol yesillamb=PortC.1
+
+SYMBOL satir1=PortB.0
+SYMBOL satir2=PortB.1
+SYMBOL satir3=PortB.2
+SYMBOL satir4=PortB.3
+SYMBOL sutun1=PortB.6
+SYMBOL sutun2=PortB.5
+SYMBOL sutun3=PortB.4
+symbol ses=PortB.7
+
+tusbasmasay2 var byte 'yeni sifre girerkenki tus basma sayisi'
+tusbasmasay var byte  'sifre girerkenki tus basma sayisi '
+
+deger var byte 'sifre girerken deger tutan degiskenler' 
+deger2 var byte 
+deger3 var byte
+yenisifdeg var byte  'yenisifrenin degerini tutan degiskenler
+yenisifdeg2 var byte 
+yenisifdeg3 var byte 
+
+guncelolmayansifre var byte 'ilk basta sifreyi 0 0 0 atamak icin'
+
+k var byte
+i var byte
+j var byte 'sifre kiyaslamak icin read etmeye yarayan degiskenler'
+j2 var byte 
+j3 var byte
+
+bekle con 35
+uzunbekle con 700
+arttirinbeklesi con 350
+
+guncelolmayansifre=0
+
+label:
+
+    lcdout 1,$fe
+    deger=" "
+    deger2=" "
+    deger3=" "
+    yenisifdeg=" "
+    yenisifdeg2=" "
+    yenisifdeg3=" "
+    tusbasmasay=0
+    yesillamb=0
+    pause bekle
+    if guncelolmayansifre=0 then 
+        for i=1 to 3 'ilk deger atamasi (sifre olarak)
+            write i,0
+        next i
+    endif
+    goto sifregir
+  
+goto label
+
+devam: 'sifre dogru girdikten sonra bu kisma geliyor.'
+    
+    deger=" "
+    deger2=" "
+    deger3=" "
+    yenisifdeg=" "
+    yenisifdeg2=" "
+    yenisifdeg3=" "
+    tusbasmasay=0
+    tusbasmasay2=0
+    kirmizilamb=0 
+    satir1=0:satir2=0:satir3=0:satir4=1
+    if sutun1=1 then goto sifregir
+    if sutun3=1 then goto yenisifre  
+
+goto devam
+
+sifregir:
+    
+    yesillamb=0    
+    kirmizilamb=1
+    satir1=1:satir2=0:satir3=0:satir4=0
+    if sutun1=1 then deger=1:goto arttir
+    if sutun2=1 then deger=2:goto arttir
+    if sutun3=1 then deger=3:goto arttir
+    pause bekle
+    
+    satir1=0:satir2=1:satir3=0:satir4=0
+    if sutun1=1 then deger=4:goto arttir
+    if sutun2=1 then deger=5:goto arttir
+    if sutun3=1 then deger=6:goto arttir
+    pause bekle
+    
+    satir1=0:satir2=0:satir3=1:satir4=0
+    if sutun1=1 then deger=7:goto arttir
+    if sutun2=1 then deger=8 :goto arttir
+    if sutun3=1 then deger=9:goto arttir
+    pause bekle
+    
+    satir1=0:satir2=0:satir3=0:satir4=1
+    if sutun2=1 then deger=0:goto arttir    
+    if sutun3=1 then  'eger sifre guncellemek isterse
+        yenisifdeg=" "
+        yenisifdeg2=" "
+        yenisifdeg3=" "
+        tusbasmasay2=0
+        goto yenisifre  
+    endif
+    pause bekle
+    lcdout $fe,1
+    lcdout $fe,$80,"sifre giriniz:"
+    pause bekle
+    if tusbasmasay=1 then 
+        deger2=deger
+        lcdout $fe,$C0,#deger2
+        pause bekle
+    endif
+    if tusbasmasay=2 then 
+        deger3=deger
+        lcdout $fe,$C0,#deger2," ",#deger3
+        pause bekle  
+    endif
+    if tusbasmasay=3 then 
+        lcdout $fe,$C0,#deger2," ",#deger3," ",#deger 
+        pause bekle      
+        goto kiyasla
+    endif
+     
+goto sifregir
+
+arttir: 'sifre girdeki tusbasma sayisi arttirma icin
+
+    pause arttirinbeklesi
+    tusbasmasay=tusbasmasay+1
+    pause arttirinbeklesi
+
+goto sifregir
+
+arttir2: 'yeni sifredeki tus basma sayisi arttirma icin
+
+    pause arttirinbeklesi
+    tusbasmasay2=tusbasmasay2+1
+    pause arttirinbeklesi
+
+goto yenisifre
+
+kiyasla:
+
+    read 1,j
+    read 2,j2
+    read 3,j3
+    
+    if j=deger2 and j2=deger3 and j3=deger then 
+        lcdout $fe,1,"Sifre dogru"
+        kirmizilamb=0
+        yesillamb=1
+        pause uzunbekle
+        goto devam 
+    else 
+        lcdout $fe,1,"sifre yanlis"
+        yesillamb=0
+        kirmizilamb=1
+        pause uzunbekle
+    endif
+      
+goto label
+
+yenisifre:
+    
+    guncelolmayansifre=guncelolmayansifre+1
+    kirmizilamb=1
+    yesillamb=0
+    satir1=1:satir2=0:satir3=0:satir4=0
+    if sutun1=1 then yenisifdeg=1:goto arttir2
+    if sutun2=1 then yenisifdeg=2:goto arttir2
+    if sutun3=1 then yenisifdeg=3:goto arttir2
+    pause bekle
+    
+    satir1=0:satir2=1:satir3=0:satir4=0
+    if sutun1=1 then yenisifdeg=4:goto arttir2
+    if sutun2=1 then yenisifdeg=5:goto arttir2
+    if sutun3=1 then yenisifdeg=6:goto arttir2
+    pause bekle                               
+    
+    satir1=0:satir2=0:satir3=1:satir4=0
+    if sutun1=1 then yenisifdeg=7:goto arttir2
+    if sutun2=1 then yenisifdeg=8:goto arttir2 
+    if sutun3=1 then yenisifdeg=9:goto arttir2
+    pause bekle
+    
+    satir1=0:satir2=0:satir3=0:satir4=1
+    if sutun1=1 then 'eger sifre girme kismina geri donmek isterse
+        deger=" "
+        deger2=" "
+        deger3=" "
+        tusbasmasay=0
+        goto sifregir
+    endif
+    if sutun2=1 then yenisifdeg=0:goto arttir2
+    pause bekle
+    lcdout $fe,1
+    lcdout $fe,$80,"yeni sifre giriniz:"
+    pause bekle
+    if tusbasmasay2=1 then 
+        yenisifdeg2=yenisifdeg
+        lcdout $fe,$C0,#yenisifdeg2
+        pause bekle
+    endif
+    if tusbasmasay2=2 then 
+        yenisifdeg3=yenisifdeg
+        lcdout $fe,$C0,#yenisifdeg2," ",#yenisifdeg3
+        pause bekle  
+    endif
+    if tusbasmasay2=3 then 
+        lcdout $fe,$C0,#yenisifdeg2," ",#yenisifdeg3," ",#yenisifdeg
+        pause bekle      
+        goto yenisifreatama
+     endif
+
+goto yenisifre
+
+yenisifreatama:
+    
+    lcdout $fe,1
+    lcdout $fe,$80,"sifre degisti"
+    pause bekle
+    write 1,yenisifdeg2
+    write 2,yenisifdeg3
+    write 3,yenisifdeg
+    pause uzunbekle  
+
+goto label
